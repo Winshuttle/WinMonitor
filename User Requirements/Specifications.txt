@@ -1,0 +1,53 @@
+WIN-MONITOR : PRODUCTS PERFORMANCE MEASURING WEB APPLICATION
+
+Phase - I
+-----------------------------------------------------------------------------------
+1. User(Main Website)  ---------------> Master Page
+   -----------------------------------------------------------
+   ->Notifications ( Full / Specific )
+   ->View Status ( Components / Incidents / Metrics )
+
+
+2. Admin Login
+   -----------------------------------------------------------
+   ->Admin Name
+   ->Admin Password
+   
+   2.1 Admin Dashboard
+       ---------------------------------------------
+       2.1.1 Add Account
+             -------------------------------
+             ->Name of the company
+             ->URL
+
+       2.1.2 Components ( Add / Edit / Delete )
+             -------------------------------
+             2.1.2.1 Master Components (Choosable)
+             2.1.2.2 Specific Components (Add)
+
+       2.1.3 Components Status
+             -------------------------------
+             -a.Operational
+             -b.Minor
+             -c.Major
+
+       2.1.4 Incidents ( Open / Close )
+             -------------------------------
+             ->Incident Name
+             ->Description
+
+
+Phase - II
+--------------------------------------------------------------------
+       2.1.5 Performance Metrics
+             ------------------------------
+             -a.Web Requests
+             -b.Player Requests
+             -c.Uploads
+             -d.Website Response Time
+             -e.Player Response Time
+             -f.Active Encoder Jobs
+
+Phase - III
+--------------------------------------------------------------------
+CLOUD SERVER SHIFTING                        
