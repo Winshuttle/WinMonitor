@@ -72,3 +72,9 @@ Incident Table
 alter table DBIncidents
 add DBDescription varchar(200);
 
+--------------------------------------------------------------------------
+Login Table
+--------------------------------------------------------------------------
+alter table DBLogin
+add DBAccountType varchar(50) constraint LCHKAccountType check(DBAccountType in('Edit','View'));
+
