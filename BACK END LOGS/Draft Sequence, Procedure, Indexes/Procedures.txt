@@ -1,0 +1,238 @@
+Proposed Stored Procedures
+=================================================================================
+1. Show Company All Details in the Table 
+------------------------------------------------------------
+
+CREATE or REPLACE procedure showDBCompany()
+{
+
+DECLARE:
+
+cmpid DBCompany.DBCompanyId%type,
+cmpname DBCompany.DBCompanyName%type,
+cmpurl DBCompany.DBURL%type
+
+CURSOR cursorDBCompany is
+	select DBCompanyId, DBCompanyName, DBURL from DBCompany; 
+
+BEGIN:
+OPEN cursorDBCompany;
+
+LOOP
+FETCH cursorDBCompany into cmpid, cmpname, cmpurl
+EXIT WHEN cursorDBCompany%notfound
+
+//output values in the table
+
+END LOOP;
+
+CLOSE cursorDBCompany;
+END;
+}
+
+
+--------------------------------------------------------------------------------------------------------
+2. Show Components and Status in the Table Excluding CompanyId and Include CompanyName and IncidentName
+-------------------------------------------------------------------------------------------------------
+
+CREATE or REPLACE procedure showDBComponent_With_Status(
+@cwsCompanyEnter DBCompany.DBCompanyName%type, 		  		 // input
+@cwsIncidentName DBIncidents.DBName					//input
+)
+{
+DECLARE:
+cwsId DBComponent_With_Status.DBCSId%type,
+cwsName DBComponent_With_Status.DBComponentName%type,
+cwsStatus DBComponent_With_Status.DBStatus%type,
+cwsType DBComponent_With_Status.DBType%type,
+
+CURSOR cursorDBComponent_With_Status is
+	select DBCSId, DBCompanyComponentName, DBStatus, DBType from DBComponent_With_Status; 
+
+BEGIN:
+
+OPEN cursorDBComponent_With_Status;
+
+LOOP
+FETCH cursorDBComponent_With_Status into cwsId, cwsName, cwsStatus, cwsType
+EXIT WHEN cursorDBCompany%notfound
+
+//output values in the table
+
+END LOOP;
+
+CLOSE cursorDBComponent_With_Status;
+END;
+}
+
+
+-----------------------------------------------------------------------------------------------------
+3. Add Company Details in the Database
+-----------------------------------------------------------------------------------------------------
+
+CREATE or REPLACE procedure insertDBCompany
+(
+@insertcmpId DBCompany.DBCompanyId%type,                     //while call use seq.nexval()
+@insertcmpName DBCompany.DBCompanyName%type,
+@insertcmpURL DBCompany.DBURL%type
+)
+{ 
+
+BEGIN:
+insert into DBCompany values(insertcmpId, insertcmpName, insertcmpURL);
+
+//output success
+
+END;
+}
+
+------------------------------------------------------------------------------------------------------
+4. Update Status in the Database
+------------------------------------------------------------------------------------------------------
+
+CREATE or REPLACE procedure updateDBComponent_With_Status
+(
+@updatecwsId DBComponent_With_Status.DBCSId%type,
+@updatecwsStatus DBComponent_With_Status.DBStatus%type,
+)
+{
+
+BEGIN:
+insert into DBComponent_With_Status values(updatecwsId, updatecwsStatus);
+
+//output success
+
+END;
+}
+
+----------------------------------------------------------------------------------------------------
+5. show details of master table in list
+----------------------------------------------------------------------------------------------------
+
+CREATE or REPLACE procedure showDBMaster_DBComponent_With_Status(
+
+)
+BEGIN:
+
+//TO DO
+
+END;
+}
+
+-----------------------------------------------------------------------------------------------------
+6. add master component in the component table
+-----------------------------------------------------------------------------------------------------
+
+CREATE or REPLACE procedure insertDBComponent_With_Status_DBMaster
+(
+@insertcwsMasterId DBComponent_With_Status.DBCSId%type,			//from master sequence
+@insertcwsMasterName DBComponent_With_Status.DBComponentName%type,	//from master table
+@insertcwsMasterType DBComponent_With_Status.DBType%type 			= "Master"
+@insertcwsMastercmpId DBComponent_With_Status.DBCompanyId%type,           //session variable
+)
+BEGIN:
+
+insert into DBComponent_With_Status values(insertcwsMasterId, insertcwsMasterName, insertcwsMasterType,
+						insertcwsMasterType);
+
+//output success
+
+END;
+}
+
+-------------------------------------------------------------------------------------------------------
+7. add specific component in the component table
+-------------------------------------------------------------------------------------------------------
+
+CREATE or REPLACE procedure insertDBComponent_With_Status_DBSpecific
+(
+@insertcwsSpecificId DBComponent_With_Status.DBCSId%type,			//from specific sequence
+@insertcwsSpecificName DBComponent_With_Status.DBComponentName%type,	//from input
+@insertcwsSpecificType DBComponent_With_Status.DBType%type 			= "Specific"
+@insertcwsSpecificcmpId DBComponent_With_Status.DBCompanyId%type,           //session variable
+)
+BEGIN:
+
+insert into DBComponent_With_Status values(insertcwsSpecificId, insertcwsSpecificName, insertcwsSpecificType,
+						insertcwsSpecificType);
+
+//output success
+
+END;
+}
+
+
+-------------------------------------------------------------------------------------------------------
+8. delete component selected in the component table 
+-------------------------------------------------------------------------------------------------------
+
+CREATE or REPLACE procedure deleteDBComponent_With_Status
+(
+@type deletecwsId DBComponent_With_Status.DBCSId%type 
+			is vararray(n) of varchar2(50)       //selected w.r.t checkbox
+)
+{
+BEGIN:
+
+LOOP:
+delete on cascade from DBComponent_With_Status where DBCSId := deletecswId;
+EXIT WHEN sql%notfound;
+END LOOP:
+
+END;
+}
+
+--------------------------------------------------------------------------------------------------------
+9. insert into incident table.. incident details
+--------------------------------------------------------------------------------------------------------
+
+CREATE or REPLACE procedure insertDBIncidents
+(
+@insertIncidentId DBIncidents.DBIncidentId%type,          //entered from sequence
+@insertIncidentName DBIncidents.DBName%type,  
+@insertIncidentCSId DBIncidents.DBCSId%type,  
+@insertIncidentDescription DBIncidents.DBDescription%type,  
+)
+BEGIN:
+insert into DBIncidents values(insertIncidentId, insertIncidentName,
+				insertIncidentCSId, insertIncidentDescription);
+
+//output success
+
+END;
+}
+
+--------------------------------------------------------------------------------------------------------
+10. get Admininstrator details in the table
+--------------------------------------------------------------------------------------------------------
+
+CREATE or REPLACE procedure showLogin
+(
+@showSession varchar2(50)
+)
+{
+
+DECLARE:
+
+showAdminName DBLogin.DBUsername%type,
+showAccountType DBLogin.DBAccountType%type,
+
+CURSOR cursorDBLogin
+	select DBUsername, DBAccountType from DBLogin
+
+BEGIN:
+OPEN cursorDBLogin;
+LOOP:
+
+FETCH cursorDBLogin into showAdminName, showAccountType;
+
+//condition if the [session].user == DBUsername then showSession = "ACTIVE"
+	    else show Session ="INACTIVE"
+
+output the values in the table
+
+EXIT WHEN cursorDBLogin%notfound
+
+END LOOP;
+END;
+}

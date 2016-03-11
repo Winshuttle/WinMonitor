@@ -1,0 +1,11 @@
+Proposed Indexes
+====================================================================
+1. CompanyName
+---------------------------------------
+   create index getDBCompanyName
+   on DBCompany (DBCompanyName);
+
+2. IncidentName
+---------------------------------------
+   create index getDBName
+   on DBIncidents (DBName);

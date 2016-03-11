@@ -1,0 +1,63 @@
+Proposed Sequences
+=========================================================================================
+
+1. For Company Id
+----------------------------------------------
+create sequence getDBCompanyId
+(
+start with 0000000001,
+increment by 1,
+max value 9999999999,
+cycle,
+no cache
+);
+
+2. For MasterComponentandStatus Id
+---------------------------------------------
+create sequence getMasterDBCSId
+(
+start with 0000000001,
+increment by 1,
+max value 9999999999,
+cycle,
+no cache
+);
+
+3. For SpecificComponentandStatus Id
+----------------------------------------------
+create sequence getSpecificDBCSId
+(
+start with 0000000001,
+increment by 1,
+max value 9999999999,
+cycle,
+no cache
+);
+
+4. For Incident Id
+---------------------------------------------
+create sequence getDBIncidentId
+(
+start with 0000000001,
+increment by 1,
+max value 9999999999,
+cycle,
+no cache
+);
+
+5. For Subscription Id
+--------------------------------------------------
+create sequence getDBId
+(
+start with 0000000001,
+increment by 1,
+max value 9999999999,
+cycle,
+no cache
+);
+
+
+
+
+
+

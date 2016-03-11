@@ -19,7 +19,7 @@ create table DBComponent_With_Status(
 		DBCSId varchar(50) constraint CWSPK primary key,
 		DBComponentName varchar(50),
 		DBStatus varchar(50) constraint CWSCHKStatus check(DBStatus in('Operational','Minor','Major')),
-		DBType varchar(50) constraint CWSCHKType check(DBType in('Main','Specific')),
+		DBType varchar(50) constraint CWSCHKType check(DBType in('Master','Specific')),
 		DBCompanyId varchar(50) ,
 		foreign key (DBCompanyId) references DBCompany(DBCompanyId)
 	)
@@ -41,7 +41,7 @@ DBUsername varchar(50) constraint LPK primary key,
 DBPassword varchar(50)
 );
 -----------------------------------------------------------
-	4.Creating table:DBSubscriptions
+	5.Creating table:DBSubscriptions
 ----------------------------------------------------------
 create table DBSubscriptions
 (
@@ -52,6 +52,14 @@ DBPhone varchar(50),
 DBType varchar(50) constraint SCHKType check(DBType IN ('SMS','Email'))
 )
 
+
+-------------------------------------------------------------
+	6. Creating table: DBMaster_DBComponent_With_Status
+---------------------------------------------------------------
+create table DBMaster_DBComponent_With_Status
+(
+DBMasterComponentName varchar(50) constraint MPK primary key
+);
 
 
 ==============================================================================================
@@ -80,3 +88,4 @@ Login Table
 --------------------------------------------------------------------------
 alter table DBLogin
 add DBAccountType varchar(50) constraint LCHKAccountType check(DBAccountType in('Edit','View'));
+
