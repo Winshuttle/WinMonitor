@@ -89,3 +89,86 @@ Login Table
 alter table DBLogin
 add DBAccountType varchar(50) constraint LCHKAccountType check(DBAccountType in('Edit','View'));
 
+
+=======================================================================================================
+=======================================================================================================
+Indexes
+=======================================================================================================
+=======================================================================================================
+
+1. CompanyName
+-------------------------------------------------------------
+   create index indexDBCompanyName
+   on DBCompany (DBCompanyName);
+
+2. IncidentName
+-------------------------------------------------------------
+   create index indexDBIncidentName
+   on DBIncidents (DBIncidentName);
+
+
+=======================================================================================================
+=======================================================================================================
+Sequences
+=======================================================================================================
+=======================================================================================================
+
+1. For Company Id
+----------------------------------------------
+create sequence seqDBCompanyId
+as integer
+start with 1
+increment by 1
+minvalue 1
+maxvalue 99999999
+cycle
+no cache
+;
+
+2. For MasterComponentandStatus Id
+---------------------------------------------
+create sequence seqMasterDBCSId
+as integer
+start with 1
+increment by 1
+minvalue 1
+maxvalue 99999999
+cycle
+no cache
+;
+
+3. For SpecificComponentandStatus Id
+----------------------------------------------
+create sequence seqSpecificDBCSId
+as integer
+start with 1
+increment by 1
+minvalue 1
+maxvalue 99999999
+cycle
+no cache
+;
+
+4. For Incident Id
+---------------------------------------------
+create sequence seqDBIncidentId
+as integer
+start with 1
+increment by 1
+minvalue 1
+maxvalue 99999999
+cycle
+no cache
+;
+
+5. For Subscription Id
+--------------------------------------------------
+create sequence seqDBSubscriptionsId
+as integer
+start with 1
+increment by 1
+minvalue 1
+maxvalue 99999999
+cycle
+no cache
+;

@@ -7,5 +7,5 @@ Proposed Indexes
 
 2. IncidentName
 ---------------------------------------
-   create index indexDBName
-   on DBIncidents (DBName);
+   create index indexDBIncidentName
+   on DBIncidents (DBIncidentName);
