@@ -28,7 +28,7 @@ create table DBComponent_With_Status(
 ----------------------------------------------------------
 create table DBIncidents(
 	DBIncidentId varchar(50) constraint IPK primary key,
-	DBName varchar(50),
+	DBIncidentName varchar(50),
 	DBCSId varchar(50),
 	foreign key (DBCSId) references DBComponent_With_Status(DBCSId)
 );
@@ -45,7 +45,7 @@ DBPassword varchar(50)
 ----------------------------------------------------------
 create table DBSubscriptions
 (
-DBId varchar(50) constraint SPK primary key,
+DBSubscriptionsId varchar(50) constraint SPK primary key,
 DBName varchar(50),
 DBEmail varchar(50),
 DBPhone varchar(50),

@@ -3,7 +3,7 @@ Proposed Sequences
 
 1. For Company Id
 ----------------------------------------------
-create sequence getDBCompanyId
+create sequence seqDBCompanyId
 (
 start with 0000000001,
 increment by 1,
@@ -14,7 +14,7 @@ no cache
 
 2. For MasterComponentandStatus Id
 ---------------------------------------------
-create sequence getMasterDBCSId
+create sequence seqMasterDBCSId
 (
 start with 0000000001,
 increment by 1,
@@ -25,7 +25,7 @@ no cache
 
 3. For SpecificComponentandStatus Id
 ----------------------------------------------
-create sequence getSpecificDBCSId
+create sequence seqSpecificDBCSId
 (
 start with 0000000001,
 increment by 1,
@@ -36,7 +36,7 @@ no cache
 
 4. For Incident Id
 ---------------------------------------------
-create sequence getDBIncidentId
+create sequence seqDBIncidentId
 (
 start with 0000000001,
 increment by 1,
@@ -47,7 +47,7 @@ no cache
 
 5. For Subscription Id
 --------------------------------------------------
-create sequence getDBId
+create sequence seqDBSubscriptionsId
 (
 start with 0000000001,
 increment by 1,
