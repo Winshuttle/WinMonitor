@@ -21,7 +21,9 @@ create table DBComponent_With_Status(
 		DBStatus varchar(50) constraint CWSCHKStatus check(DBStatus in('Operational','Minor','Major')),
 		DBType varchar(50) constraint CWSCHKType check(DBType in('Master','Specific')),
 		DBCompanyId varchar(50) ,
-		foreign key (DBCompanyId) references DBCompany(DBCompanyId)
+		DBMasterComponentName varchar(50) ,
+		foreign key(DBMasterComponentName) references DBMaster_DBComponent_With_Status		(DBMasterComponentName),
+		foreign key (DBCompanyId) references DBCompany(DBCompanyId);
 	)
 -----------------------------------------------------------
 	3.Creating table:DBIncidents
@@ -79,7 +81,7 @@ Incident Table
 -------------------------------------------------------------------------
 alter table DBIncidents
 add DBDescription varchar(200);
-
+go
 alter table DBIncidents
 add constraint IUN unique (DBCSId);
 
@@ -89,13 +91,11 @@ Login Table
 alter table DBLogin
 add DBAccountType varchar(50) constraint LCHKAccountType check(DBAccountType in('Edit','View'));
 
-
-------------------------------------------------------------------------------------------------------
-Components and Master Component Table Mapping
-------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+Components with status Change
+-----------------------------------------------------------------------------
 alter table DBComponent_With_Status
-add DBMasterComponentName varchar(50)
-foreign key(DBMasterComponentName) references DBMaster_DBComponent_With_Status(DBMasterComponentName);
+add constraint CWSUN unique(DBMasterComponentName);
 
 =======================================================================================================
 =======================================================================================================
