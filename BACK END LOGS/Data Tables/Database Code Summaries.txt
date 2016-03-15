@@ -90,6 +90,13 @@ alter table DBLogin
 add DBAccountType varchar(50) constraint LCHKAccountType check(DBAccountType in('Edit','View'));
 
 
+------------------------------------------------------------------------------------------------------
+Components and Master Component Table Mapping
+------------------------------------------------------------------------------------------------------
+alter table DBComponent_With_Status
+add DBMasterComponentName varchar(50)
+foreign key(DBMasterComponentName) references DBMaster_DBComponent_With_Status(DBMasterComponentName);
+
 =======================================================================================================
 =======================================================================================================
 Indexes
