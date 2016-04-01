@@ -87,6 +87,10 @@ add constraint IUN unique (DBCSId);
 go
 alter table DBIncidents
 add DBDateTime datetime;
+go
+alter table DBIncidents
+ADD CONSTRAINT IDATE
+DEFAULT GETDATE() FOR DBDateTime;
 
 --------------------------------------------------------------------------
 Login Table
