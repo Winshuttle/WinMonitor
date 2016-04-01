@@ -84,6 +84,9 @@ add DBDescription varchar(200);
 go
 alter table DBIncidents
 add constraint IUN unique (DBCSId);
+go
+alter table DBIncidents
+add DBDateTime datetime;
 
 --------------------------------------------------------------------------
 Login Table
