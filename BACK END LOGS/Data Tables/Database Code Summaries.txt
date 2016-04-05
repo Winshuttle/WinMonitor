@@ -63,7 +63,20 @@ create table DBMaster_DBComponent_With_Status
 DBMasterComponentName varchar(50) constraint MPK primary key
 );
 
-
+------------------------------------------------------------------------------------------------
+7.  Creating table : DBLogHistory
+------------------------------------------------------------------------------------------------
+create table DBLogHistory
+(
+DBCompanyId varchar(50),
+DBCSId varchar(50),
+DBIncidentId varchar(50),
+DBComponentName varchar(50),
+DBIncidentName varchar(50),
+DBIncidentDetails varchar(200),
+DBDateTime datetime not null,
+constraint LogPK primary key(DBCompanyId,DBCSId,DBIncidentId)
+);
 ==============================================================================================
 ==============================================================================================
 UPDATES IN TABLES
@@ -84,13 +97,6 @@ add DBDescription varchar(200);
 go
 alter table DBIncidents
 add constraint IUN unique (DBCSId);
-go
-alter table DBIncidents
-add DBDateTime datetime;
-go
-alter table DBIncidents
-ADD CONSTRAINT IDATE
-DEFAULT GETDATE() FOR DBDateTime;
 
 --------------------------------------------------------------------------
 Login Table
@@ -178,6 +184,18 @@ no cache
 5. For Subscription Id
 --------------------------------------------------
 create sequence seqDBSubscriptionsId
+as integer
+start with 1
+increment by 1
+minvalue 1
+maxvalue 99999999
+cycle
+no cache
+;
+
+6. For Log History Id
+---------------------------------------------------
+create sequence seqDBLogId
 as integer
 start with 1
 increment by 1
