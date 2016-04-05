@@ -68,6 +68,7 @@ DBMasterComponentName varchar(50) constraint MPK primary key
 ------------------------------------------------------------------------------------------------
 create table DBLogHistory
 (
+DBLogId varchar(50),
 DBCompanyId varchar(50),
 DBCSId varchar(50),
 DBIncidentId varchar(50),
@@ -75,7 +76,7 @@ DBComponentName varchar(50),
 DBIncidentName varchar(50),
 DBIncidentDetails varchar(200),
 DBDateTime datetime not null,
-constraint LogPK primary key(DBCompanyId,DBCSId,DBIncidentId)
+constraint LogPK primary key(DBLogId)
 );
 ==============================================================================================
 ==============================================================================================
