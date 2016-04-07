@@ -10,7 +10,7 @@
 create table DBCompany(
 		DBCompanyId varchar(50) constraint CPK primary key,
 		DBCompanyName varchar(50),
-		DBURL varchar(50),
+		DBURL varchar(200),
 	)
 -----------------------------------------------------------
 	2.Creating table:DBComponent_With_Status
