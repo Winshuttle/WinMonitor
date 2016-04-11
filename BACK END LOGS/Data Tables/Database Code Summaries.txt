@@ -18,7 +18,7 @@ create table DBCompany(
 create table DBComponent_With_Status(
 		DBCSId varchar(50) constraint CWSPK primary key,
 		DBComponentName varchar(50),
-		DBStatus varchar(50) constraint CWSCHKStatus check(DBStatus in('Operational','Minor','Major')),
+		DBStatus varchar(50),
 		DBType varchar(50) constraint CWSCHKType check(DBType in('Master','Specific')),
 		DBCompanyId varchar(50) ,
 		DBMasterComponentName varchar(50) ,
@@ -136,6 +136,9 @@ add constraint CWSUN unique(DBMasterComponentName);
 
 alter table DBComponent_With_Status
 add DBCenterName varchar(50);
+
+alter table DBComponent_With_Status
+add constraint CWSCHKStatus check(DBStatus in('Operational','Performance Degradation','Service Disruption'));
 
 =======================================================================================================
 =======================================================================================================
