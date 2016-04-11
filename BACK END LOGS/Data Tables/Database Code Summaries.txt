@@ -82,23 +82,13 @@ constraint LogPK primary key(DBLogId)
 
 //Tables creation for DataCenter
 ------------------------------------------------------------------------------------------------
-8. Creating Table : DBDataCenterType
-------------------------------------------------------------------------------------------------
-create table DBDataCenterType
-(
-DBTypeName varchar(50) constraint DCTPK primary key
-);
-
-
-------------------------------------------------------------------------------------------------
-9. Creating Table : DBDataCenter
+8. Creating Table : DBDataCenter
 ------------------------------------------------------------------------------------------------
 create table DBDataCenter
 (
 DBDataCenterId varchar(50) constraint DCPK primary key,
 DBDataCenterName varchar(50),
-DBTypeName varchar(50),
-foreign key(DBTypeName) references DBDataCenterType(DBTypeName)
+DBTypeName varchar(50) constraint DCHKTypeName check(DBTypeName in('primary','secondary'))
 );
 
 ==============================================================================================
@@ -112,6 +102,12 @@ Company Table
 -----------------------------------------------------------------------
 alter table DBCompany
 add constraint CUN unique (DBURL);  
+go
+alter table DBCompany
+add DBPrimaryCenter varchar(50)
+go
+alter table DBCompany
+add DBSecondaryCenter varchar(50)
 
 -------------------------------------------------------------------------
 Incident Table
