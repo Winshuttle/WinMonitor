@@ -78,6 +78,29 @@ DBIncidentDetails varchar(200),
 DBDateTime datetime not null,
 constraint LogPK primary key(DBLogId)
 );
+
+
+//Tables creation for DataCenter
+------------------------------------------------------------------------------------------------
+8. Creating Table : DBDataCenterType
+------------------------------------------------------------------------------------------------
+create table DBDataCenterType
+(
+DBTypeName varchar(50) constraint DCTPK primary key
+);
+
+
+------------------------------------------------------------------------------------------------
+9. Creating Table : DBDataCenter
+------------------------------------------------------------------------------------------------
+create table DBDataCenter
+(
+DBDataCenterId varchar(50) constraint DCPK primary key,
+DBDataCenterName varchar(50),
+DBTypeName varchar(50),
+foreign key(DBTypeName) references DBDataCenterType(DBTypeName)
+);
+
 ==============================================================================================
 ==============================================================================================
 UPDATES IN TABLES
@@ -110,6 +133,9 @@ Components with status Change
 -----------------------------------------------------------------------------
 alter table DBComponent_With_Status
 add constraint CWSUN unique(DBMasterComponentName);
+
+alter table DBComponent_With_Status
+add DBCenterName varchar(50);
 
 =======================================================================================================
 =======================================================================================================
