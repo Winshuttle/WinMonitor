@@ -91,6 +91,7 @@ DBDataCenterName varchar(50),
 DBTypeName varchar(50) constraint DCHKTypeName check(DBTypeName in('primary','secondary'))
 );
 
+<<<<<<< HEAD
 //Table for EmailFile Storage
 ---------------------------------------------------------------------------------------------
 9.Creating Table : DBEmailPages
@@ -100,6 +101,29 @@ create table DBEmailPages(
 		DBEmailPageName varchar(50),
 		DBEmailContent varchar(MAX)
 	)
+=======
+
+//Tables creation for Maintenance Calendar
+-------------------------------------------------------------------------------------------------
+9. Creating Table : DBCalendar
+--------------------------------------------------------------------------------------------------
+create table DBCalendar
+(
+DBEventId varchar(50) constraint CalPK primary key,
+DBEventTitle varchar(50) not null,
+DBEventDetails varchar(200),
+DBEventStartTime datetime2 not null,
+DBEventEndTime datetime2 not null,
+DBEventDifferenceTime varchar(50),
+DBEventRepetition varchar(200),
+DBEventMaintenance varchar(50) constraint CalCHKEventMaintenance 
+                               CHECK(DBEventMaintenance IN('Maintenance','Service Disruption','Performance Degradation')),
+DBEventStatus varchar(50) constraint CalCHKEventStatus 
+							   CHECK(DBEventStatus IN('Active','Inactive'))
+);
+
+
+>>>>>>> origin/master
 
 ==============================================================================================
 ==============================================================================================
@@ -253,9 +277,15 @@ cycle
 no cache
 ;
 
+<<<<<<< HEAD
 8. For Email Page Id
 -----------------------------------------------------
 create sequence seqDBEmailPageId
+=======
+8. For Calender Event Id
+----------------------------------------------------
+create sequence seqDBEventId
+>>>>>>> origin/master
 as integer
 start with 1
 increment by 1
