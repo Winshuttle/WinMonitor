@@ -50,8 +50,8 @@ create table DBSubscriptions
 DBSubscriptionsId varchar(50) constraint SPK primary key,
 DBName varchar(50),
 DBEmail varchar(50),
-DBPhone varchar(50),
-DBType varchar(50) constraint SCHKType check(DBType IN ('SMS','Email'))
+DBCompanyId varchar(50),
+foreign key(DBCompanyId) references DBCompany(DBCompanyId)
 )
 
 
@@ -170,6 +170,14 @@ add DBCenterName varchar(50);
 alter table DBComponent_With_Status
 add constraint CWSCHKStatus check(DBStatus in('Operational','Performance Degradation','Service Disruption'));
 
+----------------------------------------------------------------------------------
+Calendar 
+----------------------------------------------------------------------------------
+alter table DBCalendar
+add DBCompanyId varchar(50);
+go
+alter table DBCalendar
+add foreign key(DBCompanyId) references DBCompany(DBCompanyId);
 =======================================================================================================
 =======================================================================================================
 Indexes
