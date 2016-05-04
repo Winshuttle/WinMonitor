@@ -1,0 +1,110 @@
+﻿<script src="~/Scripts/jquery-1.12.0.js"></script>
+<script>
+    $(document).ready(function () {
+        populatingList();
+    });
+
+    function populatingList()
+    {
+        $.ajax({
+            url: 'getEvents',
+            type: 'get',
+            datatype:'Json',
+            async: false,
+            success: function (data) {
+                var i;
+                for (i = 0; i < data.length; i++)
+                {
+                    var str = "<option value ='" + data[i].EventId + "'>"+data[i].EventName+"</option>"
+                    $("#eventselectingList").append(str);
+                }
+
+            },
+            error: function () {
+                alert("error in populating");
+            }
+
+        })
+
+    }
+
+    function addNewEvent() {
+        var eventId = document.getElementById("EventIdInput").value;
+        var eventName = document.getElementById("EventNameInput").value;
+        var eventDetails = document.getElementById("EventDetails").value;
+
+        $.ajax({
+            url: 'addNewEvent',
+            type: 'get',
+            data: { pstrEventId: eventId, pstrEventName: eventName, pstrEventDetails: eventDetails },
+            datatype: 'Json',
+            async: false,
+            success: function () { alert("Successfully added event"); },
+            error: function () { alert("error in adding event"); }
+        });
+        location.reload();
+        document.getElementById("eventId").value = eventId;
+
+    }
+
+
+    function startEvent()
+    {
+        document.getElementById("eventIdStoringFeild").value = $('#eventselectingList').val();;
+        var eventId = document.getElementById("eventIdStoringFeild").value;
+        $.ajax({
+            url: 'startEvent',
+            type: 'get',
+            data: { pstrEventId: eventId },
+            datatype: 'text',
+            async: false,
+            success: function (data) {
+                document.getElementById("IdStoringField").value = data;
+            },
+            error: function () {
+                alert("error in starting");
+            }
+        });
+    }
+    function stopEvent()
+    {
+        var eventId = document.getElementById("IdStoringField").value;
+        if (eventId != null) {
+            $.ajax({
+                url: 'stopEvent',
+                type: 'get',
+                data: { pstrEventId: eventId },
+                datatype: 'Json',
+                async: false,
+                success: function () {
+                    alert("successfully stopped");
+                },
+                error: function () {
+                    alert("error in stopping");
+                }
+            });
+        }
+    }
+
+
+</script>
+
+
+<div>
+    <input type="text" id="eventIdStoringFeild" readonly/>
+    <input type="text" id="IdStoringField" readonly/>
+    <br><br>
+    Add Event<br><br>
+    Event Id:<input type="text" id="EventIdInput"/><br>
+    Event Name:<input type="text" id="EventNameInput"/><br>
+    Event Details:<input type="text" id="EventDetails"/><br>
+    <input type="button" onclick="addNewEvent()" value="add new Event">
+    <br><br><br><br>
+    Event:<select id="eventselectingList"></select>
+    
+    <br><br>
+    <input type="button" value="Start" onclick="startEvent()" />&nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="button" value="Stop" onclick="stopEvent()"/>
+
+
+</div>

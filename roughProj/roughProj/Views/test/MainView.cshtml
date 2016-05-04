@@ -1,0 +1,124 @@
+﻿<script src="~/Scripts/jquery-1.12.0.js"></script>
+<style>
+    .clickable:hover {
+        cursor:pointer;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var current = new Date();
+        var eventStart = new Date();
+        var eventEnd = new Date();
+        eventStart.setHours(0);
+        eventStart.setMinutes(0);
+        eventStart.setSeconds(0);
+        eventStart.setMilliseconds(0);
+        eventEnd.setDate(eventStart.getDate()+1);
+        eventEnd.setHours(0);
+        eventEnd.setMinutes(0);
+        eventEnd.setSeconds(0);
+        eventEnd.setMilliseconds(0);
+        var EventId = '1';
+        $.ajax({
+            url: 'getEvents',
+            cache: false,
+            async: false,
+            success: function (data) {
+                var EventId;
+                var dataForDivDisplay;
+                var i;
+                for (i = 0; i < data.length; i++) {
+                    EventId = data[i].EventId;
+                    $.ajax({
+                        url: 'getEventTimeStored',
+                        data: { pstrEventId: EventId, pstrEventStart: eventStart, pstrNow: current },
+                        async: false,
+                        cache: false,
+                        success: function (data) {
+                            dataForDivDisplay = data;
+                            $.ajax({
+                                url: 'getDetailsOfEvent',
+                                data: { pstrId: EventId },
+                                cache: false,
+                                async: false,
+                                datatype: 'Json',
+                                success: function (data) {
+                                    $('#statusTable tr:last').after('<tr><td>' + data.EventName + '</td><td colspan="4"><div id="divForEvent' + EventId + '" style="width:100%; height:10px"></div></td></tr>');
+                                },
+                                error: function () { alert("error in showing details"); }
+                            });
+
+                            var i;
+                            var color;
+                            var eachUnit = 100/parseInt((eventEnd - eventStart)/1000);
+                            for (i = 0; i < dataForDivDisplay.length; i++) {
+                                if (i % 2 == 0)
+                                    color = 'green';
+                                else
+                                    color = 'red';
+                                if (dataForDivDisplay[i].EventId != 0) {
+                                    $("#divForEvent" + EventId).append('<div class="clickable" id="' + dataForDivDisplay[i].EventId + '" style="background-color:' + color + '; width:' + eachUnit * parseInt(dataForDivDisplay[i].diff) + '%; height:10px;float:left;" onclick ="goForDetails(this)" ></div>');
+                                }
+                                else
+                                   
+                                    $("#divForEvent" + EventId).append('<div style="background-color:' + color + '; width:' + eachUnit * parseInt(dataForDivDisplay[i].diff) + '%; height:10px;float:left;"></div>');
+                            }
+
+                        },
+                        error: function () { alert("error in u"); }
+
+                    });
+                }
+            },
+            error: function () { alert("error in fetching events"); }
+        });
+        
+    });
+    function goForDetails(component)
+    {
+        $.ajax({
+            url: 'getDetailsOfEvent',
+            data: { pstrId: component.id },
+            cache: false,
+            async: false,
+            datatype: 'Json',
+            success: function (data) {
+                document.getElementById("divForDetails").innerHTML = "Event Name:" + data.EventName + "<br>Event Details:" + data.EventDetails;
+                
+            },
+            error: function () { alert("error in showing details");}
+        });
+        $("#divForDetails").slideToggle("slow");
+    }
+  </script>
+<div>
+    <table width="100%" cellspacing="10px" id="statusTable">
+        <tr>
+            <td>
+            </td>
+            <td align="right">
+                -6h
+            </td>
+            <td align="right">
+                -12h
+            </td>
+            <td align="right">
+                -18h
+            </td>
+            <td align="right">
+                -24h
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Component
+            </td>
+            <td colspan="4">
+            </td>
+        </tr>
+        
+    </table>
+    
+    <div id="divForDetails">
+    </div>
+</div>

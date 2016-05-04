@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="testModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="testModelStoreContainer">
+    <EntitySet Name="EventDataTable" EntityType="testModel.Store.EventDataTable" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="testingTable" EntityType="testModel.Store.testingTable" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TimeStoringTable" EntityType="testModel.Store.TimeStoringTable" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="fkCons" Association="testModel.Store.fkCons">
+      <End Role="EventDataTable" EntitySet="EventDataTable" />
+      <End Role="TimeStoringTable" EntitySet="TimeStoringTable" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="EventDataTable">
+    <Key>
+      <PropertyRef Name="EventId" />
+    </Key>
+    <Property Name="EventId" Type="int" Nullable="false" />
+    <Property Name="EventName" Type="varchar" MaxLength="50" />
+    <Property Name="EventDetails" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="testingTable">
+    <Key>
+      <PropertyRef Name="testingTableId" />
+    </Key>
+    <Property Name="testingTableId" Type="int" Nullable="false" />
+    <Property Name="initialTime" Type="datetime2" />
+    <Property Name="endTime" Type="datetime2" />
+  </EntityType>
+  <EntityType Name="TimeStoringTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="EventId" Type="int" Nullable="false" />
+    <Property Name="EventStartTime" Type="datetime2" />
+    <Property Name="EventStopTime" Type="datetime2" />
+  </EntityType>
+  <Association Name="fkCons">
+    <End Role="EventDataTable" Type="testModel.Store.EventDataTable" Multiplicity="1" />
+    <End Role="TimeStoringTable" Type="testModel.Store.TimeStoringTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EventDataTable">
+        <PropertyRef Name="EventId" />
+      </Principal>
+      <Dependent Role="TimeStoringTable">
+        <PropertyRef Name="EventId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

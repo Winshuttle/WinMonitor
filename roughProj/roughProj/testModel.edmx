@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="testModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="testModelStoreContainer">
+          <EntitySet Name="EventDataTable" EntityType="testModel.Store.EventDataTable" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="testingTable" EntityType="testModel.Store.testingTable" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TimeStoringTable" EntityType="testModel.Store.TimeStoringTable" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="fkCons" Association="testModel.Store.fkCons">
+            <End Role="EventDataTable" EntitySet="EventDataTable" />
+            <End Role="TimeStoringTable" EntitySet="TimeStoringTable" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="EventDataTable">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="EventName" Type="varchar" MaxLength="50" />
+          <Property Name="EventDetails" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="testingTable">
+          <Key>
+            <PropertyRef Name="testingTableId" />
+          </Key>
+          <Property Name="testingTableId" Type="int" Nullable="false" />
+          <Property Name="initialTime" Type="datetime2" />
+          <Property Name="endTime" Type="datetime2" />
+        </EntityType>
+        <EntityType Name="TimeStoringTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="EventId" Type="int" Nullable="false" />
+          <Property Name="EventStartTime" Type="datetime2" />
+          <Property Name="EventStopTime" Type="datetime2" />
+        </EntityType>
+        <Association Name="fkCons">
+          <End Role="EventDataTable" Type="testModel.Store.EventDataTable" Multiplicity="1" />
+          <End Role="TimeStoringTable" Type="testModel.Store.TimeStoringTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventDataTable">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="TimeStoringTable">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="testModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="testModelContext" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="EventDataTables" EntityType="testModel.EventDataTable" />
+          <EntitySet Name="testingTables" EntityType="testModel.testingTable" />
+          <EntitySet Name="TimeStoringTables" EntityType="testModel.TimeStoringTable" />
+          <AssociationSet Name="fkCons" Association="testModel.fkCons">
+            <End Role="EventDataTable" EntitySet="EventDataTables" />
+            <End Role="TimeStoringTable" EntitySet="TimeStoringTables" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="EventDataTable">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="EventName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="EventDetails" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="TimeStoringTables" Relationship="testModel.fkCons" FromRole="EventDataTable" ToRole="TimeStoringTable" />
+        </EntityType>
+        <EntityType Name="testingTable">
+          <Key>
+            <PropertyRef Name="testingTableId" />
+          </Key>
+          <Property Name="testingTableId" Type="Int32" Nullable="false" />
+          <Property Name="initialTime" Type="DateTime" Precision="7" />
+          <Property Name="endTime" Type="DateTime" Precision="7" />
+        </EntityType>
+        <EntityType Name="TimeStoringTable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="EventId" Type="Int32" Nullable="false" />
+          <Property Name="EventStartTime" Type="DateTime" Precision="7" />
+          <Property Name="EventStopTime" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="EventDataTable" Relationship="testModel.fkCons" FromRole="TimeStoringTable" ToRole="EventDataTable" />
+        </EntityType>
+        <Association Name="fkCons">
+          <End Role="EventDataTable" Type="testModel.EventDataTable" Multiplicity="1" />
+          <End Role="TimeStoringTable" Type="testModel.TimeStoringTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventDataTable">
+              <PropertyRef Name="EventId" />
+            </Principal>
+            <Dependent Role="TimeStoringTable">
+              <PropertyRef Name="EventId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="testModelStoreContainer" CdmEntityContainer="testModelContext">
+          <EntitySetMapping Name="EventDataTables">
+            <EntityTypeMapping TypeName="testModel.EventDataTable">
+              <MappingFragment StoreEntitySet="EventDataTable">
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventDetails" ColumnName="EventDetails" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="testingTables">
+            <EntityTypeMapping TypeName="testModel.testingTable">
+              <MappingFragment StoreEntitySet="testingTable">
+                <ScalarProperty Name="testingTableId" ColumnName="testingTableId" />
+                <ScalarProperty Name="initialTime" ColumnName="initialTime" />
+                <ScalarProperty Name="endTime" ColumnName="endTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeStoringTables">
+            <EntityTypeMapping TypeName="testModel.TimeStoringTable">
+              <MappingFragment StoreEntitySet="TimeStoringTable">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="EventStartTime" ColumnName="EventStartTime" />
+                <ScalarProperty Name="EventStopTime" ColumnName="EventStopTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

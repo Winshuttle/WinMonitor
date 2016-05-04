@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="testModelStoreContainer" CdmEntityContainer="testModelContext">
+    <EntitySetMapping Name="EventDataTables">
+      <EntityTypeMapping TypeName="testModel.EventDataTable">
+        <MappingFragment StoreEntitySet="EventDataTable">
+          <ScalarProperty Name="EventId" ColumnName="EventId" />
+          <ScalarProperty Name="EventName" ColumnName="EventName" />
+          <ScalarProperty Name="EventDetails" ColumnName="EventDetails" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="testingTables">
+      <EntityTypeMapping TypeName="testModel.testingTable">
+        <MappingFragment StoreEntitySet="testingTable">
+          <ScalarProperty Name="testingTableId" ColumnName="testingTableId" />
+          <ScalarProperty Name="initialTime" ColumnName="initialTime" />
+          <ScalarProperty Name="endTime" ColumnName="endTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TimeStoringTables">
+      <EntityTypeMapping TypeName="testModel.TimeStoringTable">
+        <MappingFragment StoreEntitySet="TimeStoringTable">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="EventId" ColumnName="EventId" />
+          <ScalarProperty Name="EventStartTime" ColumnName="EventStartTime" />
+          <ScalarProperty Name="EventStopTime" ColumnName="EventStopTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
