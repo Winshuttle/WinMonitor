@@ -185,11 +185,13 @@ add foreign key(DBCompanyId) references DBCompany(DBCompanyId);
 Log History
 ----------------------------------------------------------------------------------
 alter table DBLogHistory
-alter column DBDateTime datetime2;
+alter column DBDateTimeStart datetime2;
 go
 alter table DBLogHistory
 add DBStatus varchar(50);
-
+go
+alter table DBLogHistory
+add DBDateTimeEnd datetime2;
 =======================================================================================================
 =======================================================================================================
 Indexes
