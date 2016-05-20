@@ -40,7 +40,8 @@ create table DBIncidents(
 create table DBLogin
 (
 DBUsername varchar(50) constraint LPK primary key,
-DBPassword varchar(50)
+DBPassword varchar(50),
+DBAccountType varchar(50) constraint LCHKAccountType check(DBAccountType in('Edit'))
 );
 -----------------------------------------------------------
 	5.Creating table:DBSubscriptions
@@ -153,12 +154,6 @@ add DBDescription varchar(200);
 go
 alter table DBIncidents
 add constraint IUN unique (DBCSId);
-
---------------------------------------------------------------------------
-Login Table
---------------------------------------------------------------------------
-alter table DBLogin
-add DBAccountType varchar(50) constraint LCHKAccountType check(DBAccountType in('Edit','View'));
 
 -----------------------------------------------------------------------------
 Components with status Change
