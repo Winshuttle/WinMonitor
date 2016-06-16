@@ -55,26 +55,19 @@ namespace roughProj.Models
             return (contextObj.Database.SqlQuery<EventDataTable>("select * from EventDataTable").ToList());
         }
 
-        public List<NewModel> gettingEventTimeStored( string pstrEventId, DateTime eventStart, DateTime eventNow ) 
+        public List<NewModel> gettingEventTimeStored( string pstrEventId, DateTime eventStart, DateTime eventNow )
         {
             testModelContext contextObj = new testModelContext();
-            testingTable tab = new testingTable();
-            tab = (from table in contextObj.testingTables
-                   select table).First();
-            tab.endTime = eventNow;
-            tab.initialTime = eventStart;
-            contextObj.SaveChanges();
-            tab = contextObj.Database.SqlQuery<testingTable>("select * from testingTable where testingTableId = '" + 1 + "';").First();
             int a = 0;
             List<NewModel> list = new List<NewModel>();
             NewModel mod = new NewModel();
             List<TimeStoringTable> timeList = new List<TimeStoringTable>();
-            timeList = contextObj.Database.SqlQuery<TimeStoringTable>("select * from TimeStoringTable where EventId=" + pstrEventId + " and EventStartTime between '" + tab.initialTime + "' and '" + tab.endTime + "' and EventStopTime between '" + tab.initialTime + "' and '" + tab.endTime + "';").ToList();
+            timeList = contextObj.Database.SqlQuery<TimeStoringTable>("select * from TimeStoringTable where EventId=" + pstrEventId + " and EventStartTime between '" + eventStart + "' and '" + eventNow + "' and EventStopTime between '" + eventStart + "' and '" + eventNow + "';").ToList();
             
             if (timeList.Count > 0)
             {
                 mod = new NewModel();
-                a = contextObj.Database.SqlQuery<int>("select DATEDIFF(s,'" + tab.initialTime + "','" + timeList[0].EventStartTime + "');").FirstOrDefault();
+                a = contextObj.Database.SqlQuery<int>("select DATEDIFF(s,'" + eventStart + "','" + timeList[0].EventStartTime + "');").FirstOrDefault();
                 mod.EventId = 0;
                 mod.diff = a;
                 list.Add(mod);
@@ -100,7 +93,7 @@ namespace roughProj.Models
                         lastInList = timeList[i].EventStopTime;
                 }
                 mod = new NewModel();
-                a = contextObj.Database.SqlQuery<int>("select DATEDIFF(s,'" + lastInList + "','" + tab.endTime + "');").FirstOrDefault();
+                a = contextObj.Database.SqlQuery<int>("select DATEDIFF(s,'" + lastInList + "','" + eventNow + "');").FirstOrDefault();
                 mod.EventId = 0;
                 mod.diff = a;
                 list.Add(mod);
